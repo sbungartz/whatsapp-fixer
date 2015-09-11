@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Google Push Notifications">
+        <CheckBoxPreference
+            android:key="gcm.heartbeat.enabled"
+            android:title="Enable GCM Heartbeat"
+            android:defaultValue="false" />
+        <EditTextPreference
+            android:key="gcm.heartbeat.interval"
+            android:title="Interval in milliseconds"
+            android:defaultValue="900000"
+            android:inputType="number"
+            android:numeric="integer" />
+        <Preference
+            android:key="gcm.heartbeat.now"
+            android:title="Trigger Heartbeat now" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="WhatsApp Restarting">
+        <CheckBoxPreference
+            android:key="whatsapp.restarting.enabled"
+            android:title="Enable WhatsApp Restarting"
+            android:defaultValue="false" />
+        <EditTextPreference
+            android:key="whatsapp.restarting.interval"
+            android:title="Interval in milliseconds"
+            android:defaultValue="1200000"
+            android:inputType="number"
+            android:numeric="integer"/>
+        <EditTextPreference
+            android:key="whatsapp.restarting.wakeduration"
+            android:title="Wakeup duration in milliseconds"
+            android:defaultValue="5000"
+            android:inputType="number"
+            android:numeric="integer"/>
+        <Preference
+            android:key="whatsapp.restarting.now"
+            android:title="Trigger Restart now" />
+    </PreferenceCategory>
+</PreferenceScreen>
