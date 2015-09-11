@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -32,6 +33,8 @@ public class MainActivity extends ActionBarActivity {
         //SharedPreferences prefs = getSharedPreferences(Heartbeats.PREFS_NAME, Context.MODE_PRIVATE);
         //intervalInput.setText(Long.toString(prefs.getLong(Heartbeats.PREF_GCM_TRIGGER_INTERVAL, Heartbeats.DEFAULT_GCM_TRIGGER_INTERVAL)));
         //enabledInput.setChecked(prefs.getBoolean("enabled", true));
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         Context context = getApplicationContext();
         Heartbeats.registerNextAlarm(context);
