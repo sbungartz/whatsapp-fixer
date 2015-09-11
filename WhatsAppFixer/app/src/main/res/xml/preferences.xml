@@ -21,8 +21,14 @@
             android:title="Enable WhatsApp Restarting"
             android:defaultValue="false" />
         <EditTextPreference
-            android:key="whatsapp.restarting.interval"
-            android:title="Interval in milliseconds"
+            android:key="whatsapp.restarting.interval.mobile"
+            android:title="Interval (Mobile) in milliseconds"
+            android:defaultValue="1200000"
+            android:inputType="number"
+            android:numeric="integer"/>
+        <EditTextPreference
+            android:key="whatsapp.restarting.interval.wifi"
+            android:title="Interval (WiFi) in milliseconds"
             android:defaultValue="1200000"
             android:inputType="number"
             android:numeric="integer"/>

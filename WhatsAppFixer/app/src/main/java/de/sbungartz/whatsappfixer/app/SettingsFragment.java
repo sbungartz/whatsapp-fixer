@@ -8,9 +8,20 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import de.sbungartz.whatsappfixer.R;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+    private static final Set<String> POSITIVE_LONG_EDIT_TEXT_PREFERENCES = new HashSet<String>(Arrays.asList(
+            "gcm.heartbeat.interval",
+            "whatsapp.restarting.interval.mobile",
+            "whatsapp.restarting.interval.wifi",
+            "whatsapp.restarting.wakeduration"
+    ));
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +50,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         });
 
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
-        updatePositiveLongEditTextSummary(prefs, "gcm.heartbeat.interval");
-        updatePositiveLongEditTextSummary(prefs, "whatsapp.restarting.interval");
-        updatePositiveLongEditTextSummary(prefs, "whatsapp.restarting.wakeduration");
+        for(String key : POSITIVE_LONG_EDIT_TEXT_PREFERENCES) {
+            updatePositiveLongEditTextSummary(prefs, key);
+        }
     }
 
     private void updatePositiveLongEditTextSummary(SharedPreferences prefs, String key) {
@@ -60,7 +71,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if(key.equals("gcm.heartbeat.interval") || key.equals("whatsapp.restarting.interval") || key.equals("whatsapp.restarting.wakeduration")) {
+        if(POSITIVE_LONG_EDIT_TEXT_PREFERENCES.contains(key)) {
             updatePositiveLongEditTextSummary(prefs, key);
         }
 
