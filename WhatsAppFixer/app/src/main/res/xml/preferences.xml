@@ -29,13 +29,13 @@
         <EditTextPreference
             android:key="whatsapp.restarting.interval.wifi"
             android:title="Interval (WiFi) in milliseconds"
-            android:defaultValue="1200000"
+            android:defaultValue="300000"
             android:inputType="number"
             android:numeric="integer"/>
         <EditTextPreference
             android:key="whatsapp.restarting.wakeduration"
             android:title="Wakeup duration in milliseconds"
-            android:defaultValue="5000"
+            android:defaultValue="10000"
             android:inputType="number"
             android:numeric="integer"/>
         <Preference
