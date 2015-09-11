@@ -41,7 +41,7 @@ public class WhatsappRestarting {
             Log.i("restarting", "cancelled");
         }
     }
-
+    
     private static String getConnectionType(Context context) {
         ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMan.getActiveNetworkInfo();
@@ -81,5 +81,10 @@ public class WhatsappRestarting {
         ActivityManager am = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
         am.killBackgroundProcesses("com.whatsapp");
         Log.i("restarting", "restarted");
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong("whatsapp.restarting.lasttime", System.currentTimeMillis());
+        editor.commit();
     }
 }

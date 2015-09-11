@@ -9,8 +9,13 @@ import android.preference.PreferenceFragment;
 import android.widget.Toast;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.sbungartz.whatsappfixer.R;
 
@@ -48,10 +53,18 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 return true;
             }
         });
+    }
 
-        SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
-        for(String key : POSITIVE_LONG_EDIT_TEXT_PREFERENCES) {
-            updatePositiveLongEditTextSummary(prefs, key);
+    private void updateLastTriggerTime(SharedPreferences prefs, String keyPrefix) {
+        long lastTimeMillis = prefs.getLong(keyPrefix + ".lasttime", 0);
+
+        Preference pref = findPreference(keyPrefix + ".now");
+        if(lastTimeMillis == 0) {
+            pref.setSummary("Never triggered");
+        } else {
+            Calendar c = new GregorianCalendar();
+            c.setTimeInMillis(lastTimeMillis);
+            pref.setSummary(String.format("Last triggered on %1$tF at %1$tT", c));
         }
     }
 
@@ -69,24 +82,40 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
     }
 
+    private static final Pattern LASTTIME_KEY = Pattern.compile("(.*)\\.lasttime");
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if(POSITIVE_LONG_EDIT_TEXT_PREFERENCES.contains(key)) {
-            updatePositiveLongEditTextSummary(prefs, key);
+        Matcher matcher = LASTTIME_KEY.matcher(key);
+        if(matcher.matches()) {
+            String keyPrefix = matcher.group(1);
+            updateLastTriggerTime(prefs, keyPrefix);
+        } else {
+            if (POSITIVE_LONG_EDIT_TEXT_PREFERENCES.contains(key)) {
+                updatePositiveLongEditTextSummary(prefs, key);
+            }
+
+            Context context = getActivity();
+
+            Heartbeats.registerNextAlarm(context);
+            WhatsappRestarting.registerNextAlarm(context);
+
+            Toast.makeText(context, "Updated background services.", Toast.LENGTH_SHORT).show();
         }
-
-        Context context = getActivity();
-
-        Heartbeats.registerNextAlarm(context);
-        WhatsappRestarting.registerNextAlarm(context);
-
-        Toast.makeText(context, "Updated background services.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
+        SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
+        for(String key : POSITIVE_LONG_EDIT_TEXT_PREFERENCES) {
+            updatePositiveLongEditTextSummary(prefs, key);
+        }
+
+        updateLastTriggerTime(prefs, "gcm.heartbeat");
+        updateLastTriggerTime(prefs, "whatsapp.restarting");
     }
 
     @Override

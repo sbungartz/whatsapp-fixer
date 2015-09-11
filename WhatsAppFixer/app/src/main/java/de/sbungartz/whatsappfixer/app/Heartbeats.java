@@ -44,5 +44,10 @@ public class Heartbeats {
         context.sendBroadcast(new Intent("com.google.android.intent.action.GTALK_HEARTBEAT"));
         context.sendBroadcast(new Intent("com.google.android.intent.action.MCS_HEARTBEAT"));
         Log.i("heartbeater", "beating");
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong("gcm.heartbeat.lasttime", System.currentTimeMillis());
+        editor.commit();
     }
 }
