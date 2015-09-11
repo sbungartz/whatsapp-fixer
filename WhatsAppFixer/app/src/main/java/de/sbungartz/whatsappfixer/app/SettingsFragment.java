@@ -79,6 +79,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         Heartbeats.registerNextAlarm(context);
         WhatsappRestarting.registerNextAlarm(context);
+
+        Toast.makeText(context, "Updated background services.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
