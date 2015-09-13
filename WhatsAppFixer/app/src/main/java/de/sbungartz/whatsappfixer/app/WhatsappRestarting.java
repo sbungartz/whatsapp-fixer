@@ -3,14 +3,20 @@ package de.sbungartz.whatsappfixer.app;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.service.notification.NotificationListenerService;
+import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
 /**
@@ -85,6 +91,6 @@ public class WhatsappRestarting {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong("whatsapp.restarting.lasttime", System.currentTimeMillis());
-        editor.commit();
+        editor.apply();
     }
 }

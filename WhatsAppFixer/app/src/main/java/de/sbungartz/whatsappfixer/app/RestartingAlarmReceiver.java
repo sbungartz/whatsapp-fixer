@@ -3,8 +3,12 @@ package de.sbungartz.whatsappfixer.app;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
+import android.service.notification.NotificationListenerService;
+import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
 /**
@@ -18,7 +22,14 @@ public class RestartingAlarmReceiver extends BroadcastReceiver {
         Log.i("restarting", "acquire wakelock");
         wakeLock.acquire();
 
-        WhatsappRestarting.restartNow(context);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if(prefs.getBoolean("whatsapp.restarting.nonotification", true)) {
+            context.startService(new Intent(NotificationListener.RESTARTING_ACTION, null, context, NotificationListener.class));
+        } else {
+            WhatsappRestarting.restartNow(context);
+        }
+
         WhatsappRestarting.registerNextAlarm(context);
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

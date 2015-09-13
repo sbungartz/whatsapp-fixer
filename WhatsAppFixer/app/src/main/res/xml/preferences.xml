@@ -20,6 +20,11 @@
             android:key="whatsapp.restarting.enabled"
             android:title="Enable WhatsApp Restarting"
             android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="whatsapp.restarting.nonotification"
+            android:title="Keep Notifications"
+            android:summary="Do not restart when a WhatsApp notification is shown. Otherwise on restart, the notification time will be reset, and the notification LED will stop blinking.\nHowever, when this is enabled, it might happen, that once one message is received no more messages will be received, until the notification is removed.\nFor this feature to work, grant Notification access in Settings > Security > Notification Access"
+            android:defaultValue="false" />
         <EditTextPreference
             android:key="whatsapp.restarting.interval.mobile"
             android:title="Interval (Mobile) in milliseconds"
